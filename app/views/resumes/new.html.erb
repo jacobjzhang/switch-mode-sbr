@@ -1,0 +1,17 @@
+<h1>Upload Resume</h1>
+
+<%= form_with scope: :profile, url: resumes_path, local: true do |form| %>
+  <p>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+  </p>
+ 
+  <p>
+    <%= form.label :text %><br>
+    <%= form.file_field :resume %>
+  </p>
+ 
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
