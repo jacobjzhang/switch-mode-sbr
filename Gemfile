@@ -37,7 +37,16 @@ gem 'jbuilder', '~> 2.5'
 # gem 'debugger', '1.6.8'
 # gem 'pry', '~> 0.9.9'
 # gem 'pry-debugger'
+
+gem 'pg'
+
 gem 'byebug'
+
+gem 'bootstrap', '~> 4.0.0.beta2.1'
+
+#css
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 # gem 'presume'
 gem 'zip'
