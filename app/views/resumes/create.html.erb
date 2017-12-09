@@ -1,1 +1,4 @@
-Creation: <%= @text.gsub!('●', '') %>
+Creation: 
+<%= @titles.each do |title| %>
+  <%= title.gsub!('●', '') %>
+<% end %>

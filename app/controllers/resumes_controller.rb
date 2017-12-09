@@ -1,7 +1,8 @@
 require 'net/http'
 # require 'treat'
 require 'engtagger'
-require 'fuzzy_match'
+# require 'fuzzy_match'
+require 'fuzzystringmatch'
 
 include Treat::Core::DSL
 
@@ -33,20 +34,25 @@ class ResumesController < ApplicationController
     tgr = EngTagger.new
     tagged = tgr.add_tags(res_content)
     nps = tgr.get_noun_phrases(tagged)
+    nps.keys
   end
 
   def get_titles(nouns)
     final_titles = []
-    matcher = FuzzyMatch.new(Constants::titles)
+    #matcher = FuzzyMatch.new(Constants::titles, :must_match_at_least_one_word => true)
+    jarow = FuzzyStringMatch::JaroWinkler.create( :native )
 
-    nouns.each do |title|
-      matched_title = matcher.find(title)
-      final_titles.push(matched_title)
+    nouns.uniq.each do |noun|
+      Constants::titles.each do |title|
+        dist = jarow.getDistance(noun.downcase, title.downcase)
+        if dist > 0.8
+          final_titles.push(title)
+        end
+      end
     end
 
     final_titles = final_titles.uniq
-
-    byebug
+    @titles = final_titles
   end
 
   def make_indeed_query

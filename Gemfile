@@ -45,7 +45,8 @@ gem 'rubyzip'
 
 # nlp
 gem 'stanford-core-nlp'
-gem 'fuzzy_match'
+gem 'fuzzy-string-match'
+# gem 'fuzzy_match'
 gem 'engtagger'
 gem 'treat'
 
