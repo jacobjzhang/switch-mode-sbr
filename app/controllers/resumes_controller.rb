@@ -23,13 +23,30 @@ class ResumesController < ApplicationController
       @res_content += p.text
     end
 
-    parse_resume(@res_content)
+    nps = get_nouns(@res_content)
+    titles = get_titles(nps)
   end
 
-  def parse_resume(resume_content)
+  def get_nouns(res_content)
+    # content = section res_content
+    # content.apply :chunk, :tokenize, :category
+    tgr = EngTagger.new
+    tagged = tgr.add_tags(res_content)
+    nps = tgr.get_noun_phrases(tagged)
+  end
+
+  def get_titles(nouns)
+    final_titles = []
+    matcher = FuzzyMatch.new(Constants::titles)
+
+    nouns.each do |title|
+      matched_title = matcher.find(title)
+      final_titles.push(matched_title)
+    end
+
+    final_titles = final_titles.uniq
+
     byebug
-    parsed_res = Presume.new(resume_content, 'guy')
-    make_indeed_query(keywords)
   end
 
   def make_indeed_query
