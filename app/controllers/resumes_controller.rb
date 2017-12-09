@@ -1,5 +1,7 @@
 require 'net/http'
-require 'treat'
+# require 'treat'
+require 'engtagger'
+require 'fuzzy_match'
 
 include Treat::Core::DSL
 
