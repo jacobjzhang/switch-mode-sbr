@@ -1,4 +1,4 @@
 Creation: 
 <%= @titles.each do |title| %>
-  <%= title.gsub!('●', '') %>
+  <%= link_to title, "/search?title=#{title}" %>
 <% end %>

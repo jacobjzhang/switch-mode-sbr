@@ -54,13 +54,4 @@ class ResumesController < ApplicationController
     final_titles = final_titles.uniq
     @titles = final_titles
   end
-
-  def make_indeed_query
-    url = URI.parse("http://api.indeed.com/ads/apisearch?v=2&publisher=883066880941130&q=java&l=austin%2C+tx&sort=&radius=&st=&jt=&start=&limit=&fromage=&filter=&latlong=1&co=us&format=json")
-    req = Net::HTTP::Get.new(url.to_s)
-    res = Net::HTTP.start(url.host, url.port) {|http|
-      http.request(req)
-    }
-    puts res.body
-  end
 end
