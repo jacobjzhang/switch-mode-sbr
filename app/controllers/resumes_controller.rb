@@ -9,6 +9,7 @@ include Treat::Core::DSL
 # ResumesController is documented here.
 class ResumesController < ApplicationController
   def new
+    @titles = Resume.last.title_tags
     p 'Hey'
   end
 
