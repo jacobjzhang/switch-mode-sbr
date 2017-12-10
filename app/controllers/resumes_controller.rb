@@ -26,6 +26,9 @@ class ResumesController < ApplicationController
 
     nps = get_nouns(@res_content)
     titles = get_titles(nps)
+    byebug
+    res = Resume.new(file: resume.path, title_tags: titles)
+    res.save!
   end
 
   def get_nouns(res_content)
