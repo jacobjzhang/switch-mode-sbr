@@ -8,15 +8,12 @@ class JobsController < ApplicationController
     title = params[:title]
 
     qurl = query_url(title)
-    url = URI.parse(qurl)
-    req = Net::HTTP::Get.new(url.to_s)
-    res = Net::HTTP.start(url.host, url.port) {|http|
-      http.request(req)
-    }
 
-    jobs = JSON.parse(res.body)['results']
+    jobs = request_jobs(qurl)
 
-    description = scrape_description(get_first(jobs))
+    first_job = get_first(jobs)
+
+    description = scrape_description(first_job)
 
     nouns = Analyzer.get_nouns(description)
     matches = Analyzer.get_similar(nouns.uniq, Constants::titles, 0.8)
@@ -29,6 +26,20 @@ class JobsController < ApplicationController
   end
 
   private
+
+  def request_jobs(qurl)
+    url = URI.parse(qurl)
+    req = Net::HTTP::Get.new(url.to_s)
+    res = Net::HTTP.start(url.host, url.port) {|http|
+      http.request(req)
+    }
+
+    results = JSON.parse(res.body)['results']
+
+    
+
+    results
+  end
 
   def get_first(arr)
     arr[0]
