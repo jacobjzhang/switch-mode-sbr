@@ -27,7 +27,7 @@ class ResumesController < ApplicationController
     titles = get_titles(nps)
     res = Resume.new(
       file: resume.path,
-      chunks: nps,
+      nouns: nps,
       title_tags: titles,
       user_id: current_user.id
     )
