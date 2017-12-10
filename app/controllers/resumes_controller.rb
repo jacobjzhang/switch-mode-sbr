@@ -1,7 +1,6 @@
 require 'net/http'
 # require 'treat'
 require 'engtagger'
-# require 'fuzzy_match'
 require 'fuzzystringmatch'
 
 include Treat::Core::DSL
@@ -9,7 +8,7 @@ include Treat::Core::DSL
 # ResumesController is documented here.
 class ResumesController < ApplicationController
   before_action :authenticate_user!
-
+  
   def new
     @saved_titles ||= current_user.resumes.last.title_tags
     p 'Hey'

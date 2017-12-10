@@ -61,6 +61,9 @@ gem 'fuzzy-string-match'
 gem 'engtagger'
 gem 'treat'
 
+# parser
+gem 'nokogiri'
+
 gem 'rubocop', require: false
 gem "paperclip", "~> 5.0.0"
 gem 'pdf-reader'
