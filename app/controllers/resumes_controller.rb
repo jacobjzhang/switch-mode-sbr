@@ -8,8 +8,10 @@ include Treat::Core::DSL
 
 # ResumesController is documented here.
 class ResumesController < ApplicationController
+  before_action :authenticate_user!
+
   def new
-    @titles = Resume.last.title_tags
+    @saved_titles ||= current_user.resumes.last.title_tags
     p 'Hey'
   end
 
@@ -27,8 +29,7 @@ class ResumesController < ApplicationController
 
     nps = get_nouns(@res_content)
     titles = get_titles(nps)
-    byebug
-    res = Resume.new(file: resume.path, title_tags: titles)
+    res = Resume.new(file: resume.path, title_tags: titles, user_id: current_user.id)
     res.save!
   end
 

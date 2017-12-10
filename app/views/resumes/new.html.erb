@@ -1,7 +1,12 @@
 <h1>Upload Resume</h1>
 
-<% @titles.each do |title| %>
-  <%= title %>
+<p>Welcome back, <%= current_user.email %>!</p>
+
+<% if @saved_titles %>
+  <h2>Previous Uploads</h2>
+  <% @saved_titles.each do |title| %>
+    <%= title %>
+  <% end %>
 <% end %>
 
 <%= form_with scope: :profile, url: resumes_path, local: true do |form| %>
