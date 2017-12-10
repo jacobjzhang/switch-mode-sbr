@@ -1,8 +1,5 @@
 require 'net/http'
 # require 'treat'
-require 'engtagger'
-require 'fuzzystringmatch'
-
 include Treat::Core::DSL
 
 # ResumesController is documented here.
@@ -26,34 +23,25 @@ class ResumesController < ApplicationController
       @res_content += p.text
     end
 
-    nps = get_nouns(@res_content)
+    nps = Analyzer.get_nouns(@res_content)
     titles = get_titles(nps)
-    res = Resume.new(file: resume.path, title_tags: titles, user_id: current_user.id)
+    res = Resume.new(
+      file: resume.path,
+      chunks: nps,
+      title_tags: titles,
+      user_id: current_user.id
+    )
     res.save!
   end
 
-  def get_nouns(res_content)
-    # content = section res_content
-    # content.apply :chunk, :tokenize, :category
-    tgr = EngTagger.new
-    tagged = tgr.add_tags(res_content)
-    nps = tgr.get_noun_phrases(tagged)
-    nps.keys
+  def show
+    @resume = Resume.find(params[:id])
   end
 
-  def get_titles(nouns)
-    final_titles = []
-    #matcher = FuzzyMatch.new(Constants::titles, :must_match_at_least_one_word => true)
-    jarow = FuzzyStringMatch::JaroWinkler.create( :native )
+  protected
 
-    nouns.uniq.each do |noun|
-      Constants::titles.each do |title|
-        dist = jarow.getDistance(noun.downcase, title.downcase)
-        if dist > 0.8
-          final_titles.push(title)
-        end
-      end
-    end
+  def get_titles(nouns)
+    final_titles = Analyzer.get_similar(nouns.uniq, Constants::titles, 0.8)
 
     final_titles = final_titles.uniq
     @titles = final_titles

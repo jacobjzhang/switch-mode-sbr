@@ -16,7 +16,10 @@ class JobsController < ApplicationController
 
     jobs = JSON.parse(res.body)['results']
 
-    @description = scrape_description(get_first(jobs))
+    description = scrape_description(get_first(jobs))
+
+    nouns = Analyzer.get_nouns(description)
+    matches = Analyzer.get_similar(nouns.uniq, Constants::titles, 0.8)
   end
 
   def scrape_description(job)
