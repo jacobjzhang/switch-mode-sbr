@@ -33,6 +33,8 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'devise'
+
 # Debugging
 # gem 'debugger', '1.6.8'
 # gem 'pry', '~> 0.9.9'
