@@ -1,6 +1,4 @@
 require 'net/http'
-require 'nokogiri'
-require 'open-uri'
 
 # JobsController is documented here.
 class JobsController < ApplicationController
@@ -10,19 +8,11 @@ class JobsController < ApplicationController
     qurl = query_url(title)
 
     jobs = request_jobs(qurl)
-
-    first_job = get_first(jobs)
-
-    description = scrape_description(first_job)
-
-    nouns = Analyzer.get_nouns(description)
-    matches = Analyzer.get_similar(nouns.uniq, Constants::titles, 0.8)
   end
 
-  def scrape_description(job)
-    url = job['url']
-    doc = Nokogiri::HTML(open(url))
-    doc.css('#job_summary').text
+  def analyze
+    nouns = Analyzer.get_nouns(description)
+    matches = Analyzer.get_similar(nouns.uniq, Constants::titles, 0.8)
   end
 
   private
@@ -36,8 +26,7 @@ class JobsController < ApplicationController
 
     results = JSON.parse(res.body)['results']
 
-    byebug
-    Resque.enqueue(StoreReqJob, results)
+    StoreReqJob.set(queue: 'store_req').perform_later(results)
 
     results
   end
