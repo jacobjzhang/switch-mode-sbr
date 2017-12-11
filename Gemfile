@@ -41,6 +41,7 @@ gem 'devise'
 # gem 'pry-debugger'
 
 gem 'pg'
+gem 'resque'
 
 gem 'byebug'
 

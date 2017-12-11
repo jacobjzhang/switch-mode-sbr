@@ -36,7 +36,8 @@ class JobsController < ApplicationController
 
     results = JSON.parse(res.body)['results']
 
-    
+    byebug
+    Resque.enqueue(StoreReqJob, results)
 
     results
   end
