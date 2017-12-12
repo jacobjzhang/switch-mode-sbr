@@ -12,9 +12,7 @@ class ResumesController < ApplicationController
   end
 
   def create
-    # render plain: params[:resume].inspect
-    profile = params[:profile]
-    resume = profile[:resume]
+    resume = params[:file]
 
     parsed_resume = PDF::Reader.new(resume.path)
 
