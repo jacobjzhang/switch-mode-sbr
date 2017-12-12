@@ -43,11 +43,13 @@ gem 'devise'
 gem 'pg'
 gem 'resque'
 
+# utilities
 gem 'byebug'
+gem "ember-cli-rails"
 
 gem 'bootstrap', '~> 4.0.0.beta2.1'
 
-#css
+# css
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
@@ -58,6 +60,7 @@ gem 'rubyzip'
 # nlp
 gem 'stanford-core-nlp'
 gem 'fuzzy-string-match'
+gem 'rake_text'
 # gem 'fuzzy_match'
 gem 'engtagger'
 gem 'treat'
