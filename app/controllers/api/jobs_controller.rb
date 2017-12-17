@@ -1,7 +1,7 @@
 require 'net/http'
 
 # JobsController is documented here.
-class JobsController < ApplicationController
+class Api::JobsController < Api::BaseController
   def search
     title = params[:title]
 

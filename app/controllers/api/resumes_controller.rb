@@ -1,5 +1,4 @@
 require 'net/http'
-# require 'treat'
 include Treat::Core::DSL
 
 # ResumesController is documented here.
@@ -7,7 +6,7 @@ class Api::ResumesController < Api::BaseController
   def index
     respond_with Resume.all, status: 200
   end
-  
+
   def new
     @saved_titles ||= current_user.resumes.last.title_tags
   end
@@ -15,11 +14,10 @@ class Api::ResumesController < Api::BaseController
   def create
     resume = params[:file]
 
-    parsed_resume = PDF::Reader.new(resume.path)
-
-    @res_content = ''
-    parsed_resume.pages.each do |p|
-      @res_content += p.text
+    begin
+      @res_content = PDFUtil.to_string(resume)
+    rescue
+      puts "No resume file found."
     end
 
     nps = Analyzer.get_nouns(@res_content)
@@ -34,9 +32,7 @@ class Api::ResumesController < Api::BaseController
   end
 
   def show
-    @resume = Resume.find(params[:id])
-
-    render json: @resume
+    respond_with Resume.find(params[:id]), status: 200
   end
 
   protected
