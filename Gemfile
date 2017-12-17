@@ -61,7 +61,7 @@ gem 'rubyzip'
 gem 'stanford-core-nlp'
 gem 'fuzzy-string-match'
 gem 'rake_text'
-# gem 'fuzzy_match'
+gem 'classifier-reborn'
 gem 'engtagger'
 gem 'treat'
 
