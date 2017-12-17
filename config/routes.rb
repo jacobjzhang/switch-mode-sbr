@@ -1,21 +1,17 @@
 require 'resque/server'
 
 Rails.application.routes.draw do
-
-  # resources :users
   devise_for :users
 
-  get 'users/:id' => 'users#show'
+  namespace :api do
+    get 'users/:id' => 'users#show'
 
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+    resources :resumes
 
-  # root to: "resumes#new"
+    get 'search', to: :search, controller: 'jobs'
+  end
 
-  resources :resumes
-
-  get 'search', to: :search, controller: 'jobs'
-
-  mount Resque::Server, at: '/jobs'
+  mount Resque::Server, at: '/resque'
 
   mount_ember_app :frontend, to: "/"
 end
