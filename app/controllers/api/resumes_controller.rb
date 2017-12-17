@@ -7,7 +7,7 @@ class Api::ResumesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    render json: Resume.all, adapter: :json_api
+    render json: Resume.all
   end
   
   def new
