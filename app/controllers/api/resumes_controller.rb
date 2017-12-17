@@ -3,16 +3,13 @@ require 'net/http'
 include Treat::Core::DSL
 
 # ResumesController is documented here.
-class Api::ResumesController < ApplicationController
-  before_action :authenticate_user!
-
+class Api::ResumesController < Api::BaseController
   def index
-    render json: Resume.all
+    respond_with Resume.all, status: 200
   end
   
   def new
     @saved_titles ||= current_user.resumes.last.title_tags
-    p 'Hey'
   end
 
   def create
