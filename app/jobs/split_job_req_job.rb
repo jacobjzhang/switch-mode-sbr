@@ -4,7 +4,12 @@ class SplitJobReqJob < ApplicationJob
   @@split_words = [
     'we are looking for',
     'benefits',
-    'is a'
+    ' is a ',
+    'responsibilities',
+    'qualifications',
+    'competencies',
+    'desired',
+    'want to see'
   ]
 
   def perform(*args)
@@ -17,7 +22,7 @@ class SplitJobReqJob < ApplicationJob
 
   def split_req(record, description)
     jd = description.downcase
-    qual_index = jd.index(/qualifications/)
+    qual_index = jd.index(/qualifications|competencies|desired/)
     resp_index = jd.index(/responsibilities/)
 
     q = ''
@@ -49,15 +54,18 @@ class SplitJobReqJob < ApplicationJob
   protected
 
   def getIdxOfStop(substr)
-    first_idx = 0
+    # assume you cover all of the text first, so first_stop_idx is the end
+    # then let the stop words assign it to be earlier
+    first_stop_idx = substr.length
     @@split_words.each do |word|
-      first_idx = substr.index(word)
-      if first_idx
+      earlier_idx = substr.index(word) || first_stop_idx
+      if earlier_idx < first_stop_idx && earlier_idx != 0
+        first_stop_idx = earlier_idx
         break
       end
     end
 
-    first_idx ? first_idx : substr.length
+    first_stop_idx
   end
 
 end
